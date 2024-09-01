@@ -4,8 +4,6 @@ from pydantic import BaseModel
 from passlib.context import CryptContext
 from typing import Optional
 from random import randrange
-import psycopg as psycopg3
-from psycopg.rows import dict_row  # Import dict_row correctly for cursor context
 import time
 from sqlalchemy.orm import Session
 from . import models, schemas, utils
@@ -34,22 +32,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-while True:
-    try:
-        # Establish connection to PostgreSQL database
-        conn = psycopg3.connect(
-            host='localhost',
-            dbname='fastapi',
-            user='postgres',
-            password='test123'
-        )
-        print("DB connected")
-        break  # Exit the loop if the connection is successful
-    except Exception as error:
-        print(f"Error connecting to the database: {error}")
-        time.sleep(2)  # Retry every 2 seconds
 
 app.include_router(post.router)
 app.include_router(user.router)
